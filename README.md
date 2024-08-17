@@ -16,11 +16,32 @@ Da Frust vollständig clientseitig ausgeführt wird, sind serverseitig keine bes
 ```console
 $ rustup target add wasm32-unknown-unknown
 ```
-Auch wasm-bindgen-cli muss installiert werden:
+Bentötigt wird ferner ein WASM web application bundler, um die erforderlichen WASM- und JavaScript-Dateien zu erzeugen. Exemplarisch beschreibe ich hier wasm-bindgen und trunk, weil ich es mit diesen getestet habe; im Prinzip sollte es aber mit jedem anderen geeigneten Tool gehen. 
+
+### trunk
+
+trunk muss installiert werden:
+
+```console
+$ cargo install trunk
+```
+
+Die benötigten JavaScript- und WASM-Dateien werden erzeugt mit:
+
+```console
+$ trunk build --release
+```
+
+trunk erzeugt einen Unterordner „dist“. Dessen Inhalt muss jetzt nur noch in das gewünschte Verzeichnis des Websververs verschoben oder kopiert werden.
+
+### wasm-bindgen
+
+wasm-bindgen-cli muss installiert werden:
 
 ```console
 $ cargo install wasm-bindgen-cli
 ```
+
 Die benötigten JavaScript- und WASM-Dateien werden erzeugt mit:
 
 ```console
@@ -28,7 +49,7 @@ $ cargo build --target wasm32-unknown-unknown --release
 $ wasm-bindgen --out-dir ./out --target web ./target/wasm32-unknown-unknown/release/frust.wasm
 ```
 
-Anschließend müssen nur noch die Dateien index.html und das Verzeichnis opt mitsamt Inhalt in das gewünschte Verzeichnis des Websververs verschoben werden.
+Anschließend müssen nur noch die Dateien index.html und das Verzeichnis opt mitsamt Inhalt in das gewünschte Verzeichnis des Websververs verschoben oder kopiert werden.
 
 ## License
 
