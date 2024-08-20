@@ -1,25 +1,34 @@
-use yew::prelude::*;
+use yew::{prelude::*, props};
+
+#[derive(Properties, PartialEq, Clone)]
+pub struct Props {
+    filename: Option<String>,
+}
 
 #[function_component]
 fn App() -> Html {
+    let props = props! (Props {
+        filename: None::<String>,
+    });
+
     html! {
         <>
             <h1>{"Willkommen bei Frust!"}</h1>
-            <OpenFile />
-            <FileView />
+            <OpenFile ..props.clone() />
+            <FileView ..props />
         </>
     }
 }
 
 #[function_component]
-fn OpenFile() -> Html {
+fn OpenFile(props: &Props) -> Html {
     html! {
-        <input type="file" />
+        <input type="file" accept="application/zip" />
     }
 }
 
 #[function_component]
-fn FileView() -> Html {
+fn FileView(props: &Props) -> Html {
     html! {
         <p>{"View File..."}</p>
     }
