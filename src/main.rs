@@ -14,7 +14,7 @@ fn App() -> Html {
 #[function_component]
 fn OpenFile() -> Html {
     html! {
-        <p>{"Open File..."}</p>
+        <input type="file" />
     }
 }
 
