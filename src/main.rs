@@ -13,7 +13,7 @@ fn App() -> Html {
 
     html! {
         <>
-            <h1>{"Willkommen bei Frust!"}</h1>
+            <h1 class={classes!("text-center")}>{"Willkommen bei Frust!"}</h1>
             <OpenFile ..props.clone() />
             <FileView ..props />
         </>
