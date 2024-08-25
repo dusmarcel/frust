@@ -1,36 +1,51 @@
 use yew::{prelude::*, props};
 
-#[derive(Properties, PartialEq, Clone)]
-pub struct Props {
-    filename: Option<String>,
+#[derive(Properties, PartialEq)]
+pub struct OpenFileProps {
+    pub on_file_change: Callback<Event>,
+}
+
+#[derive(Properties, PartialEq)]
+pub struct FileViewProps {
+    #[prop_or(AttrValue::from("No file selected"))]
+    pub msg: AttrValue,
 }
 
 #[function_component]
 fn App() -> Html {
-    let props = props! (Props {
-        filename: None::<String>,
+    let fvprops = props!{FileViewProps{}};
+    let on_file_change = Callback::from(move |e: Event| {
     });
 
     html! {
         <>
             <h1 class={classes!("text-center")}>{"Willkommen bei Frust!"}</h1>
-            <OpenFile ..props.clone() />
-            <FileView ..props />
+            <OpenFile {on_file_change} />
+            <FileView ..fvprops />
         </>
     }
 }
 
 #[function_component]
-fn OpenFile(props: &Props) -> Html {
+fn OpenFile(props: &OpenFileProps) -> Html {
+    let onchange = props.on_file_change.clone();
+
     html! {
-        <input type="file" accept="application/zip" />
+        <input
+            id="file-upload"
+            type="file"
+            accept="application/zip"
+            {onchange}
+        />
     }
 }
 
 #[function_component]
-fn FileView(props: &Props) -> Html {
+fn FileView(props: &FileViewProps) -> Html {
+    let msg = props.msg.clone();
+
     html! {
-        <p>{"View File..."}</p>
+        <p>{msg}</p>
     }
 }
 
