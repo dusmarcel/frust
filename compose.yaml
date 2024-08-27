@@ -16,8 +16,12 @@ services:
       - 80:80
     develop:
       watch:
-      - path: ./src
-        action: rebuild
+      - action: rebuild
+        path: ./src
+      - action: rebuild
+        path: ./index.html
+      - action: rebuild
+        path: ./Cargo.toml
 
 # The commented out section below is an example of how to define a PostgreSQL
 # database that your application can use. `depends_on` tells Docker Compose to
