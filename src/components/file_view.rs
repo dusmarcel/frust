@@ -46,8 +46,6 @@ pub fn file_view(props: &FileListProps) -> Html {
                 reader.read_as_array_buffer(&file).unwrap();
                 onloadend.forget();
             }
-
-            || ()
         });
     }
 
