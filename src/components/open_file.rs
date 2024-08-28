@@ -20,11 +20,14 @@ pub fn open_file(props: &OpenFileProps) -> Html {
     };
 
     html! {
-        <input
-            id="file-upload"
-            type="file"
-            accept="application/zip"
-            onchange={on_file_change}
-        />
+        <>
+            <div></div>
+            <input
+                class={classes!("hidden")}
+                type="file"
+                accept="application/zip"
+                onchange={on_file_change}
+            />
+        </>
     }
 }
