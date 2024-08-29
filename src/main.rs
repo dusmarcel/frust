@@ -11,7 +11,7 @@ fn App() -> Html {
 
     html! {
         <>
-            <h1 class={classes!("text-center")}>{"Willkommen bei Frust!"}</h1>
+            <h1 class={classes!("text-center", "text-2xl", "pt-4")}>{"Willkommen bei Frust!"}</h1>
             <FileView file={(*file).clone()} />
             <OpenFile file={file.clone()} />
         </>

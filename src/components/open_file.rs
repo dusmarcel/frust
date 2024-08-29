@@ -1,4 +1,4 @@
-use web_sys::{HtmlInputElement, File};
+use web_sys::{DragEvent, File, HtmlInputElement};
 use yew::prelude::*;
 
 #[derive(Properties, PartialEq)]
@@ -8,6 +8,16 @@ pub struct OpenFileProps {
 
 #[function_component(OpenFile)]
 pub fn open_file(props: &OpenFileProps) -> Html {
+    let on_drop = {
+        let file = props.file.clone();
+        Callback::from(move |e: DragEvent| {
+            e.prevent_default();
+            let files = e.data_transfer().unwrap().files();
+            if let Some(file_list) = files {
+                file.set(file_list.get(0));           
+            }           
+        })
+    };
     let on_file_change = {
         let file = props.file.clone();
         Callback::from(move |e: Event| {
@@ -21,8 +31,22 @@ pub fn open_file(props: &OpenFileProps) -> Html {
 
     html! {
         <>
-            <div></div>
+            <label for="file-upload">
+                <div 
+                    class={classes!("mx-12", "mt-4", "p-6", "flex", "border-2", "border-dotted", "border-stone-50", "bg-indigo-600", "justify-center", "items-center")}
+                    ondrop={on_drop}
+                    ondragover={Callback::from(|event: DragEvent| {
+                        event.prevent_default();
+                    })}
+                    ondragenter={Callback::from(|event: DragEvent| {
+                        event.prevent_default();
+                    })}
+                >
+                <p class={classes!("text-center")}>{"Datei hier hineinziehen oder klicken, um auszuwählen."}</p>
+                </div>
+            </label>
             <input
+                id="file-upload"
                 class={classes!("hidden")}
                 type="file"
                 accept="application/zip"

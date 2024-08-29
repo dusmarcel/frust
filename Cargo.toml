@@ -6,6 +6,6 @@ edition = "2021"
 [dependencies]
 js-sys = "0.3.70"
 wasm-bindgen = "0.2.93"
-web-sys = { version = "0.3.70", features = ["HtmlInputElement"] }
+web-sys = { version = "0.3.70", features = ["DataTransfer", "DragEvent", "HtmlInputElement"] }
 yew = { git = "https://github.com/yewstack/yew/", features = ["csr"] }
 zip = { version = "2.2.0", default-features = false, features = ["deflate"] }
