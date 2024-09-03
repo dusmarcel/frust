@@ -49,14 +49,29 @@ pub fn file_view(props: &FileListProps) -> Html {
         });
     }
 
+    let on_click = {
+        Callback::from(move |_e: MouseEvent| {
+            web_sys::console::log_1(&"Click!".into());
+        })
+    };
+
     html! {
         <div>
             {
                 if !file_names.is_empty() {
                     html! {
-                        <ul>
-                            { for file_names.iter().map(|name| html! { <li>{ name }</li> }) }
-                        </ul>
+                        <div class={classes!("grid", "grid-cols-2")}>
+                            <ul>
+                                { for file_names.iter().map(|name| html! {
+                                    <li onclick={on_click.clone()}>
+                                        { name }
+                                    </li> })
+                                }
+                            </ul>
+                            <p>
+                                {"Hallo, Grid!"}
+                            </p>
+                        </div>
                     }
                 } else {
                     html! {}
