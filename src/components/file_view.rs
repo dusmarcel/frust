@@ -1,7 +1,7 @@
 use std::io::Cursor;
 use wasm_bindgen::closure::Closure;
 use wasm_bindgen::JsCast;
-use web_sys::{File, FileReader};
+use web_sys::{File, FileReader, HtmlUListElement};
 use js_sys::Uint8Array;
 use yew::prelude::*;
 use zip::ZipArchive;
@@ -50,8 +50,10 @@ pub fn file_view(props: &FileListProps) -> Html {
     }
 
     let on_click = {
-        Callback::from(move |_e: MouseEvent| {
-            web_sys::console::log_1(&"Click!".into());
+        Callback::from(move |e: MouseEvent| {
+            let list_element: HtmlUListElement = e.target_unchecked_into();
+            //web_sys::console::log_1(&"Click!".into());
+            web_sys::console::log_1(&format!("Clicked: {}", list_element.inner_text()).into())
         })
     };
 
