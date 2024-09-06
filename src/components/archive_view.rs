@@ -17,6 +17,7 @@ pub struct ArchiveViewProps {
 #[function_component(ArchiveView)]
 pub fn archive_view(props: &ArchiveViewProps) -> Html {
     let file_names = use_state(|| vec![]);
+    let selected_file = use_state(|| None);
 
     {
         let file_names = file_names.clone();
@@ -58,8 +59,13 @@ pub fn archive_view(props: &ArchiveViewProps) -> Html {
                 if !file_names.is_empty() {
                     html! {
                         <div class={classes!("grid", "grid-cols-2")}>
-                            <FileList file_names={(*file_names).clone()} />
-                            <FileView />
+                            <FileList
+                                file_names={(*file_names).clone()}
+                                selected_file={(selected_file).clone()}
+                            />
+                            <FileView
+                                selected_file={(*selected_file).clone()}
+                            />
                         </div>
                     }
                 } else {
