@@ -1,5 +1,7 @@
 use yew::prelude::*;
 
+//use crate::file::FileDetails;
+
 #[derive(Properties, PartialEq)]
 pub struct FileViewProps {
     pub selected_file: Option<String>,

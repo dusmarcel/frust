@@ -1,5 +1,6 @@
 use yew::prelude::*;
 
+mod file;
 mod components;
 
 use components::open_archive::OpenArchive as OpenArchive;

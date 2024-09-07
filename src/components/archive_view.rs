@@ -6,6 +6,7 @@ use js_sys::Uint8Array;
 use yew::prelude::*;
 use zip::ZipArchive;
 
+use crate::file::FileDetails;
 use crate::components::file_list::FileList;
 use crate::components::file_view::FileView;
 
@@ -16,11 +17,11 @@ pub struct ArchiveViewProps {
 
 #[function_component(ArchiveView)]
 pub fn archive_view(props: &ArchiveViewProps) -> Html {
-    let file_names = use_state(|| vec![]);
+    let files = use_state(|| vec![]);
     let selected_file = use_state(|| None);
 
     {
-        let file_names = file_names.clone();
+        let files = files.clone();
         let archive = props.archive.clone();
         
         use_effect_with(archive, move |archive| {
@@ -34,13 +35,17 @@ pub fn archive_view(props: &ArchiveViewProps) -> Html {
                     let cursor = Cursor::new(array.to_vec());
 
                     if let Ok(mut archive) = ZipArchive::new(cursor) {
-                        let mut names = vec![];
+                        let mut files_vec = vec![];
                         for i in 0..archive.len() {
                             if let Ok(file) = archive.by_index(i) {
-                                names.push(file.name().to_string());
+                                files_vec.push(FileDetails {
+                                    name: file.name().to_string(),
+                                    file_type: "application/pdf".to_string(),
+                                    data: array.to_vec(),
+                                });
                             }
                         }
-                        file_names.set(names);
+                        files.set(files_vec);
                     } else {
                         web_sys::console::error_1(&"Failed to open ZIP archive".into());
                     }
@@ -56,11 +61,11 @@ pub fn archive_view(props: &ArchiveViewProps) -> Html {
     html! {
         <div>
             {
-                if !file_names.is_empty() {
+                if !files.is_empty() {
                     html! {
                         <div class={classes!("grid", "grid-cols-2")}>
                             <FileList
-                                file_names={(*file_names).clone()}
+                                files={(*files).clone()}
                                 selected_file={(selected_file).clone()}
                             />
                             <FileView
