@@ -1,10 +1,9 @@
+use web_sys::File;
 use yew::prelude::*;
-
-use crate::file::FileDetails;
 
 #[derive(Properties, PartialEq)]
 pub struct FileViewProps {
-    pub selected_file: Option<FileDetails>,
+    pub selected_file: Option<File>,
 }
 
 #[function_component(FileView)]
@@ -14,7 +13,7 @@ pub fn file_view(props: &FileViewProps) -> Html {
     if let Some(selected_file) = selected_file {
         html! {
             <p>
-                {format!("Selected file: {:#?}", selected_file.name)}
+                {format!("Selected file: {:#?}", selected_file.name())}
             </p>
         }
     } else {

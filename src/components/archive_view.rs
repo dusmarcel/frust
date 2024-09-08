@@ -6,7 +6,7 @@ use js_sys::Uint8Array;
 use yew::prelude::*;
 use zip::ZipArchive;
 
-use crate::file::FileDetails;
+use crate::file::zip2js;
 use crate::components::file_list::FileList;
 use crate::components::file_view::FileView;
 
@@ -38,12 +38,7 @@ pub fn archive_view(props: &ArchiveViewProps) -> Html {
                         let mut files_vec = vec![];
                         for i in 0..archive.len() {
                             if let Ok(file) = archive.by_index(i) {
-                                files_vec.push(FileDetails {
-                                    id: i,
-                                    name: file.name().to_string(),
-                                    file_type: mime_guess::from_ext(file.name()).first_or_octet_stream().essence_str().to_string(),
-                                    //data: array.to_vec(),
-                                });
+                                files_vec.push(zip2js(file));
                             }
                         }
                         files.set(files_vec);

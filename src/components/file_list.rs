@@ -1,12 +1,10 @@
-use web_sys::HtmlUListElement;
+use web_sys::{File, HtmlUListElement};
 use yew::prelude::*;
-
-use crate::file::FileDetails;
 
 #[derive(Properties, PartialEq)]
 pub struct FileListProps {
-    pub files: Vec<FileDetails>,
-    pub selected_file: UseStateHandle<Option<FileDetails>>,
+    pub files: Vec<File>,
+    pub selected_file: UseStateHandle<Option<File>>,
 }
 
 #[function_component(FileList)]
@@ -26,13 +24,13 @@ pub fn file_list(props: &FileListProps) -> Html {
         <div>
             <ul>
                 {
-                    for files.iter().map(|file| html! {
+                    for files.iter().enumerate().map(|(i,file)| html! {
                         <li
-                            id={format!("{}", file.id)}
+                            id={format!("{}", i)}
                             onclick={on_click.clone()}
-                            key={file.id}  
+                            key={i}  
                         >
-                            { file.name.clone() }
+                            { file.name() }
                         </li>
                     })
                 }
