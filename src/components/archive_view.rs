@@ -40,7 +40,7 @@ pub fn archive_view(props: &ArchiveViewProps) -> Html {
                             if let Ok(file) = archive.by_index(i) {
                                 files_vec.push(FileDetails {
                                     name: file.name().to_string(),
-                                    file_type: "application/pdf".to_string(),
+                                    file_type: mime_guess::from_ext(file.name()).first_or_octet_stream().essence_str().to_string(),//"application/pdf".to_string(),
                                     data: array.to_vec(),
                                 });
                             }
