@@ -21,7 +21,9 @@ pub fn file_list(props: &FileListProps) -> Html {
     };
 
     html! {
-        <div>
+        <div
+            class={classes!("mt-4", "p-8")}
+        >
             <ul>
                 {
                     for files.iter().enumerate().map(|(i,file)| html! {
