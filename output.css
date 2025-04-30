@@ -7,6 +7,7 @@
     --font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono",
       "Courier New", monospace;
     --color-red-800: oklch(44.4% 0.177 26.899);
+    --color-purple-600: oklch(55.8% 0.288 302.321);
     --default-font-family: var(--font-sans);
     --default-mono-font-family: var(--font-mono);
   }
@@ -178,7 +179,7 @@
   .contents {
     display: contents;
   }
-  .bg-red-800 {
-    background-color: var(--color-red-800);
+  .bg-purple-600 {
+    background-color: var(--color-purple-600);
   }
 }
