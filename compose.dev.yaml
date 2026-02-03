@@ -1,0 +1,17 @@
+services:
+  web:
+    build:
+      context: .
+      dockerfile: Dockerfile.dev
+    volumes:
+      - .:/app
+      - cargo-registry:/root/.cargo/registry
+      - cargo-git:/root/.cargo/git
+      - target:/app/target
+    ports:
+      - "8073:8080"
+
+volumes:
+  cargo-registry:
+  cargo-git:
+  target:

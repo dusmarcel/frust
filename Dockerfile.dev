@@ -1,0 +1,29 @@
+FROM rust:1
+
+WORKDIR /app
+
+# System deps + Node
+RUN apt-get update && apt-get install -y \
+    curl \
+    ca-certificates \
+    && curl -fsSL https://deb.nodesource.com/setup_20.x | bash - \
+    && apt-get install -y nodejs \
+    && rm -rf /var/lib/apt/lists/* \
+    && npm install -g @tailwindcss/cli tailwindcss
+
+# Rust wasm target
+RUN rustup target add wasm32-unknown-unknown
+
+# Dioxus CLI
+RUN curl -L --proto '=https' --tlsv1.2 -sSf \
+    https://raw.githubusercontent.com/cargo-bins/cargo-binstall/main/install-from-binstall-release.sh | bash && \
+    cargo binstall dioxus-cli -y --force
+
+ENV PATH="/root/.cargo/bin:$PATH"
+
+COPY dev.sh /usr/local/bin/dev.sh
+RUN chmod +x /usr/local/bin/dev.sh
+
+EXPOSE 8080
+
+CMD ["dev.sh"]

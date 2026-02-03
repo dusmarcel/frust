@@ -1,0 +1,11 @@
+[application]
+# Required section even if empty.
+
+[web]
+# Use release-friendly settings for web bundling.
+pre_compress = true
+
+[web.wasm_opt]
+# Optimize for size and strip debug symbols in release builds.
+level = "z"
+debug = false
