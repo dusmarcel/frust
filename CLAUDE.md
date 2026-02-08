@@ -13,12 +13,24 @@ Serve a platform (run from the platform's directory):
 ```bash
 cd packages/web && dx serve
 cd packages/desktop && dx serve
-cd packages/mobile && dx serve
+cd packages/mobile && dx serve --platform android
+cd packages/mobile && dx serve --platform ios
 ```
 
 Build for release:
 ```bash
 cd packages/web && dx build --release
+```
+
+Bundle for production (from project root):
+```bash
+dx bundle --package web --release
+```
+
+Docker development (serves on http://localhost:8073):
+```bash
+docker compose -f compose.dev.yaml up --build   # dev with hot reload
+docker compose up --build                        # production build with nginx
 ```
 
 ## Architecture
@@ -32,9 +44,21 @@ cd packages/web && dx build --release
 **Key Patterns:**
 - Each platform crate has its own `main.rs` with a `Route` enum and platform-specific router wrapper
 - Shared components (`Hero`, `Navbar`) live in the `ui` crate and are imported by platform crates
+- Each platform wraps shared components with platform-specific wrappers (e.g., `WebNavbar` wraps `Navbar`) to inject the platform's `Route` type
 - Routes are defined using the `#[derive(Routable)]` macro with `#[route("/path")]` attributes
 - Layouts use `#[layout(Component)]` attribute and `Outlet::<Route> {}` for child rendering
 - Assets are referenced using `asset!("/assets/filename")` macro
+- Platform-specific styles go in `packages/{platform}/assets/`, shared styles in `packages/ui/assets/styling/`
+- Global CSS is injected via `document::Link { rel: "stylesheet", href: asset!(...) }` in the `App` component
+
+**Adding a new shared component:**
+1. Create the component in `packages/ui/src/` and re-export from `lib.rs`
+2. Add styles in `packages/ui/assets/styling/`
+3. Create platform-specific wrappers in each platform crate if the component needs the platform's `Route` type
+
+**Adding a new route:**
+1. Add a variant to the platform's `Route` enum in `main.rs` with `#[route("/path")]`
+2. Create the view component in `packages/{platform}/src/views/` and re-export from `mod.rs`
 
 ## Dioxus 0.7 Specifics
 
