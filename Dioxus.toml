@@ -1,5 +1,5 @@
 [application]
-# Required section even if empty.
+name = "Frust"
 
 [web]
 # Use release-friendly settings for web bundling.
